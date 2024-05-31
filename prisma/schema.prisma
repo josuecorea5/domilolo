@@ -42,6 +42,7 @@ model Business {
   contacts Contact[]
   address String
   website String
+  image String
   categoryId String @db.ObjectId
   updatedById String @db.ObjectId
   category Category @relation(fields: [categoryId], references: [id])

@@ -16,6 +16,9 @@ export const protectRoutes = (req, res, next) => {
   try {
     const user = verifyJWT(token);
     req.user = user;
+    if(req.user.role !== "ADMIN"){
+      return res.status(401).json({ message: "Unauthorized" });
+    }
     next();
   } catch (error) {
     return res.status(401).json({ message: 'Unauthorized' });
