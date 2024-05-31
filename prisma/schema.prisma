@@ -9,6 +9,47 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
+  provider = "mongodb"
   url      = env("DATABASE_URL")
+}
+
+model User {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  username String @unique
+  email String @unique
+  password String
+  role String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  categories Category[]
+  businesses Business[]
+}
+
+model Category {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  name String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  updatedById String @db.ObjectId
+  updatedBy User @relation(fields: [updatedById], references: [id])
+  businesses Business[]
+}
+
+model Business {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  name String @unique
+  description String
+  contacts Contact[]
+  address String
+  website String
+  categoryId String @db.ObjectId
+  updatedById String @db.ObjectId
+  category Category @relation(fields: [categoryId], references: [id])
+  updatedBy User @relation(fields: [updatedById], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+type Contact {
+  phoneNumber String
 }
