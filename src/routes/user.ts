@@ -13,7 +13,7 @@ router.post(
   errorMiddleware,
   createUser)
 
-router.post("/login", 
+router.post("/singin", 
   body("username").notEmpty().isLength({ min: 5 }),
   body("password").notEmpty().isLength({ min: 8 }),
   errorMiddleware,
