@@ -5,8 +5,20 @@ import path from "path";
 export const getBusinesses = async (req, res) => {
   try {
     const businesses = await prisma.business.findMany({
-      include: {
-        category: true
+      select: {
+        id: true,
+        name: true,
+        description: true,
+        address: true,
+        website: true,
+        image: true,
+        contacts: true,
+        category: {
+          select: {
+            id: true,
+            name: true
+          }
+        }
       }
     });
     res.json(businesses);
@@ -23,8 +35,20 @@ export const getBusiness = async (req, res) => {
       where: {
         id
       },
-      include: {
-        category: true
+      select: {
+        id: true,
+        name: true,
+        description: true,
+        address: true,
+        website: true,
+        image: true,
+        contacts: true,
+        category: {
+          select: {
+            id: true,
+            name: true
+          }
+        }
       }
     });
 
