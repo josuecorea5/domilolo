@@ -1,4 +1,5 @@
 import express from "express";
+import cors from "cors";
 import userRoutes from "./routes/user";
 import categoryRoutes from "./routes/category";
 import businessRoutes from "./routes/business";
@@ -6,6 +7,7 @@ import { errorHandler } from "./middlewares/errorMiddleware";
 
 const app = express();
 
+app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
