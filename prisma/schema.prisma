@@ -1,0 +1,56 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  username String @unique
+  email String @unique
+  password String
+  role String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  categories Category[]
+  businesses Business[]
+}
+
+model Category {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  name String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  updatedById String @db.ObjectId
+  updatedBy User @relation(fields: [updatedById], references: [id])
+  businesses Business[]
+}
+
+model Business {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  name String @unique
+  description String
+  contacts Contact[]
+  address String
+  website String
+  image String
+  categoryId String @db.ObjectId
+  updatedById String @db.ObjectId
+  category Category @relation(fields: [categoryId], references: [id])
+  updatedBy User @relation(fields: [updatedById], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+type Contact {
+  phoneNumber String
+}
