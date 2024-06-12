@@ -76,7 +76,7 @@ export const createBusiness = async(req, res) => {
   if(!findCategory) {
     return res.status(404).json({ message: "Category not found"});
   }
-
+  
   try {
     const response = await cloudinary.uploader.upload(req.file.path, { folder: "domilolo"});
     
@@ -114,7 +114,7 @@ export const updateBusiness = async(req, res) => {
 
   const findCategory = await prisma.category.findUnique({
     where: {
-      id: findBusiness.categoryId
+      id: dataBusiness.categoryId
     }
   });
 
